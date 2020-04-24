@@ -1,38 +1,62 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import axios from "axios";
 import ReactPaginate from "react-paginate";
 import EnrollStudent from "./EnrollStudentPopup";
 
 function StudentPaginatedList() {
-  const students = [
-    {
-      id: "5ea295d0996b1605d3b2cc33",
-      name: "Nadeesha",
-      gender: "Male",
-      address: "Panadura",
-      contactNumber: 766838371,
-      subjects: ["Maths", "Science"],
-    },
-    {
-      id: "5ea2b1becf6cfa0eddc63cc3",
-      name: "Dilruwna",
-      gender: "Male",
-      address: "Panadura",
-      contactNumber: 766838371,
-      subjects: ["Maths", "Science", "English"],
-    },
-  ];
+  const [subjects, setSubjects] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      console.log("fetch subjects");
 
-  const subjects = ["Maths", "Science", "English"];
+      try {
+        const response = await axios.get(`http://localhost:3000/subjects`);
+        setSubjects(response.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const perPage = 3;
+
+  const [pageCount, setPageCount] = useState(0);
+  const [students, setStudents] = useState([]);
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/students?page=${page}&limit=${perPage}`
+        );
+        setStudents(response.data.data);
+        setPageCount(Math.ceil(response.data.count / perPage));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchData();
+  }, [page]);
+
+  const handlePageClick = async (data) => {
+    setPage(data.selected + 1);
+  };
 
   const studentList = students.map((student) => {
     return (
-      <tr key={student.id}>
-        <th>{student.id}</th>
+      <tr key={student._id}>
         <td>{student.name}</td>
         <td>{student.gender}</td>
         <td>{student.address}</td>
         <td>{student.contactNumber}</td>
-        <td>{student.subjects}</td>
+        <td>
+          <ul>
+            {student.subjects.map((subject) => {
+              return <li key={subject}>{subject}</li>;
+            })}
+          </ul>
+        </td>
         <td>
           <EnrollStudent subjects={subjects} />
         </td>
@@ -40,18 +64,11 @@ function StudentPaginatedList() {
     );
   });
 
-  let pageCount = 150;
-
-  const handlePageClick = () => {
-    console.log("click");
-  };
-
   return (
     <Fragment>
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Gender</th>
             <th scope="col">Address</th>

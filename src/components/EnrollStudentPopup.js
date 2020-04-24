@@ -25,13 +25,12 @@ function EnrollStudentPopup(props) {
             <Modal.Title>Enroll Subjects</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {props.subjects.map((type) => (
+            {props.subjects.map((subject) => (
               <Form.Check
                 inline
-                label={type}
+                label={subject.name}
                 type="checkbox"
-                id={`inline-checkbox-1`}
-                key={type}
+                key={subject.name}
               />
             ))}
           </Modal.Body>
