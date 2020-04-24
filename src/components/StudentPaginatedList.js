@@ -7,8 +7,6 @@ function StudentPaginatedList() {
   const [subjects, setSubjects] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      console.log("fetch subjects");
-
       try {
         const response = await axios.get(`http://localhost:3000/subjects`);
         setSubjects(response.data.data);
@@ -43,6 +41,12 @@ function StudentPaginatedList() {
     setPage(data.selected + 1);
   };
 
+  const enrollStudentHandler = async (subjectState) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve("8"), 2000);
+    });
+  };
+
   const studentList = students.map((student) => {
     return (
       <tr key={student._id}>
@@ -58,7 +62,11 @@ function StudentPaginatedList() {
           </ul>
         </td>
         <td>
-          <EnrollStudent subjects={subjects} />
+          <EnrollStudent
+            subjects={subjects}
+            enrolled={student.subjects}
+            enrollStudentHandler={enrollStudentHandler}
+          />
         </td>
       </tr>
     );

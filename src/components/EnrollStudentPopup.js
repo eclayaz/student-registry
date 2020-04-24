@@ -3,12 +3,43 @@ import { Button, Modal, Form } from "react-bootstrap";
 
 function EnrollStudentPopup(props) {
   const [show, setShow] = useState(false);
+  const [subjectState, setSubjectState] = useState(
+    props.subjects.map((subject) => {
+      return {
+        name: subject.name,
+        value: props.enrolled.includes(subject.name) ? true : false,
+      };
+    })
+  );
 
   const handleClose = () => {
     setShow(false);
   };
+
   const handleShow = () => {
     setShow(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await props.enrollStudentHandler(subjectState);
+      setShow(false);
+    } catch (err) {
+      console.log("eee");
+    }
+  };
+
+  const checkHandler = (event) => {
+    setSubjectState(
+      subjectState.map((subject) => {
+        if (subject.name === event.target.name) {
+          subject.value = event.target.checked;
+        }
+        return subject;
+      })
+    );
   };
 
   return (
@@ -25,12 +56,15 @@ function EnrollStudentPopup(props) {
             <Modal.Title>Enroll Subjects</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {props.subjects.map((subject) => (
+            {subjectState.map((subject) => (
               <Form.Check
                 inline
                 label={subject.name}
                 type="checkbox"
                 key={subject.name}
+                name={subject.name}
+                checked={subject.value}
+                onChange={checkHandler}
               />
             ))}
           </Modal.Body>
@@ -38,7 +72,7 @@ function EnrollStudentPopup(props) {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
               Add
             </Button>
           </Modal.Footer>
