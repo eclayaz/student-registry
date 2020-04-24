@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination .active a {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.pagination .disabled a {
+  cursor: not-allowed;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid #dee2e6;
+}

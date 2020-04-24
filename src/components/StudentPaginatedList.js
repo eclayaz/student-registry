@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import ReactPaginate from "react-paginate";
 import EnrollStudent from "./EnrollStudentPopup";
 
 function StudentPaginatedList() {
@@ -39,6 +40,12 @@ function StudentPaginatedList() {
     );
   });
 
+  let pageCount = 150;
+
+  const handlePageClick = () => {
+    console.log("click");
+  };
+
   return (
     <Fragment>
       <table className="table">
@@ -55,6 +62,19 @@ function StudentPaginatedList() {
         </thead>
         <tbody>{studentList}</tbody>
       </table>
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+      />
     </Fragment>
   );
 }
