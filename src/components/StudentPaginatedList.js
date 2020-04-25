@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import EnrollStudent from "./EnrollStudentPopup";
+import Student from "./Student";
 import NewStudentPopup from "./NewStudentPopup";
 
 function StudentPaginatedList() {
@@ -9,7 +9,7 @@ function StudentPaginatedList() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`http://localhost:3000/subjects`);
+        const response = await axios.get(`/subjects`);
         setSubjects(response.data.data);
       } catch (err) {
         console.log(err);
@@ -27,10 +27,11 @@ function StudentPaginatedList() {
     async function fetchData() {
       try {
         const response = await axios.get(
-          `http://localhost:3000/students?page=${page}&limit=${perPage}`
+          `/students?page=${page}&limit=${perPage}`
         );
+
         setStudents(response.data.data);
-        setPageCount(Math.ceil(response.data.count / perPage));
+        setPageCount(Math.ceil(response.headers["x-total-count"] / perPage));
       } catch (err) {
         console.log(err);
       }
@@ -45,10 +46,7 @@ function StudentPaginatedList() {
   const createStudentHandler = async (studentData) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await axios.post(
-          `http://localhost:3000/students`,
-          studentData
-        );
+        const response = await axios.post(`/students`, studentData);
 
         setStudents([...students, response.data.data]);
         resolve();
@@ -61,10 +59,7 @@ function StudentPaginatedList() {
   const enrollStudentHandler = async (studentId, subjects) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await axios.put(
-          `http://localhost:3000/students/${studentId}/subjects`,
-          { subjects }
-        );
+        await axios.put(`/students/${studentId}/subjects`, { subjects });
         const updatedStudents = students.map((student) => {
           if (student._id === studentId) {
             student.subjects = subjects;
@@ -78,32 +73,6 @@ function StudentPaginatedList() {
       }
     });
   };
-
-  const studentList = students.map((student) => {
-    return (
-      <tr key={student._id}>
-        <td>{student.name}</td>
-        <td>{student.gender}</td>
-        <td>{student.address}</td>
-        <td>{student.contactNumber}</td>
-        <td>
-          <ul>
-            {student.subjects.map((subject) => {
-              return <li key={subject}>{subject}</li>;
-            })}
-          </ul>
-        </td>
-        <td>
-          <EnrollStudent
-            subjects={subjects}
-            enrolled={student.subjects}
-            enrollStudentHandler={enrollStudentHandler}
-            studentId={student._id}
-          />
-        </td>
-      </tr>
-    );
-  });
 
   return (
     <Fragment>
@@ -119,7 +88,18 @@ function StudentPaginatedList() {
             <th scope="col">Enroll</th>
           </tr>
         </thead>
-        <tbody>{studentList}</tbody>
+        <tbody>
+          {students.map((student) => {
+            return (
+              <Student
+                key={student._id}
+                student={student}
+                subjects={subjects}
+                enrollStudentHandler={enrollStudentHandler}
+              />
+            );
+          })}
+        </tbody>
       </table>
       <ReactPaginate
         previousLabel={"previous"}
