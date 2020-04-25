@@ -23,8 +23,15 @@ function EnrollStudentPopup(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let subjectsToEnroll = subjectState.reduce((filtered, subject) => {
+      if (subject.value) {
+        filtered.push(subject.name);
+      }
+      return filtered;
+    }, []);
+
     try {
-      await props.enrollStudentHandler(props.studentId, subjectState);
+      await props.enrollStudentHandler(props.studentId, subjectsToEnroll);
       setShow(false);
     } catch (err) {
       console.log(err.message);

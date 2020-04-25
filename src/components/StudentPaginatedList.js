@@ -58,10 +58,24 @@ function StudentPaginatedList() {
     });
   };
 
-  const enrollStudentHandler = async (studentId, subjectState) => {
-    console.log(studentId);
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve("8"), 2000);
+  const enrollStudentHandler = async (studentId, subjects) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.put(
+          `http://localhost:3000/students/${studentId}/subjects`,
+          { subjects }
+        );
+        const updatedStudents = students.map((student) => {
+          if (student._id === studentId) {
+            student.subjects = subjects;
+          }
+          return student;
+        });
+        setStudents(updatedStudents);
+        resolve();
+      } catch (err) {
+        reject(err.message);
+      }
     });
   };
 

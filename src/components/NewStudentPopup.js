@@ -8,6 +8,13 @@ function NewStudentPopup(props) {
   const [address, setAddress] = useState("");
   const [contactNumber, setContactNumber] = useState("");
 
+  const rest = () => {
+    setName("");
+    setGender("Male");
+    setAddress("");
+    setContactNumber("");
+  };
+
   const handleClose = () => {
     setShow(false);
   };
@@ -30,6 +37,7 @@ function NewStudentPopup(props) {
         address,
         contactNumber,
       });
+      rest();
       setShow(false);
     } catch (err) {
       console.log(err);
