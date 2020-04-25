@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import EnrollStudent from "./EnrollStudentPopup";
+import NewStudentPopup from "./NewStudentPopup";
 
 function StudentPaginatedList() {
   const [subjects, setSubjects] = useState([]);
@@ -41,7 +42,24 @@ function StudentPaginatedList() {
     setPage(data.selected + 1);
   };
 
-  const enrollStudentHandler = async (subjectState) => {
+  const createStudentHandler = async (studentData) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.post(
+          `http://localhost:3000/students`,
+          studentData
+        );
+
+        setStudents([...students, response.data.data]);
+        resolve();
+      } catch (err) {
+        reject(err.message);
+      }
+    });
+  };
+
+  const enrollStudentHandler = async (studentId, subjectState) => {
+    console.log(studentId);
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve("8"), 2000);
     });
@@ -66,6 +84,7 @@ function StudentPaginatedList() {
             subjects={subjects}
             enrolled={student.subjects}
             enrollStudentHandler={enrollStudentHandler}
+            studentId={student._id}
           />
         </td>
       </tr>
@@ -74,6 +93,7 @@ function StudentPaginatedList() {
 
   return (
     <Fragment>
+      <NewStudentPopup createStudentHandler={createStudentHandler} />
       <table className="table">
         <thead>
           <tr>

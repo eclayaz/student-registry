@@ -24,10 +24,10 @@ function EnrollStudentPopup(props) {
     e.preventDefault();
 
     try {
-      await props.enrollStudentHandler(subjectState);
+      await props.enrollStudentHandler(props.studentId, subjectState);
       setShow(false);
     } catch (err) {
-      console.log("eee");
+      console.log(err.message);
     }
   };
 
