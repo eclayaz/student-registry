@@ -2,25 +2,21 @@ import React, { useState, useEffect } from "react";
 import EnrollStudent from "./EnrollStudent";
 
 function Student({ student, subjects, enrollStudentHandler }) {
-  const [subjectState, setSubjectState] = useState(
-    subjects.map((subject) => {
+  const getSubjectsWithState = () => {
+    return subjects.map((subject) => {
       return {
         name: subject.name,
         value: student.subjects.includes(subject.name) ? true : false,
       };
-    })
-  );
+    });
+  };
+
+  const [subjectState, setSubjectState] = useState(getSubjectsWithState());
 
   const [showEnroll, setShowEnroll] = useState(false);
   useEffect(() => {
     return function cleanup() {
-      const subs = subjects.map((subject) => {
-        return {
-          name: subject.name,
-          value: student.subjects.includes(subject.name) ? true : false,
-        };
-      });
-      setSubjectState(subs);
+      setSubjectState(getSubjectsWithState());
     };
   }, [showEnroll]);
 
