@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import toJson from 'enzyme-to-json';
 
 import Student from "../Student";
 
@@ -25,5 +26,5 @@ const student = {
 
 it("renders with student data", () => {
   let wrapped = shallow(<Student subjects={subjects} student={student} />);
-  expect(wrapped).toMatchSnapshot();
+  expect(toJson(wrapped)).toMatchSnapshot();
 });
