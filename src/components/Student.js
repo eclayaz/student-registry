@@ -61,12 +61,12 @@ function Student({ student, subjects, enrollStudentHandler }) {
 
   return (
     <tr key={student._id}>
-      <td>{student.name}</td>
-      <td>{student.gender}</td>
-      <td>{student.address}</td>
-      <td>{student.contactNumber}</td>
+      <td data-testid="name">{student.name}</td>
+      <td data-testid="gender">{student.gender}</td>
+      <td data-testid="address">{student.address}</td>
+      <td data-testid="contactNumber">{student.contactNumber}</td>
       <td>
-        <ul>
+        <ul data-testid="subjects">
           {student.subjects.map((subject) => {
             return <li key={subject}>{subject}</li>;
           })}
