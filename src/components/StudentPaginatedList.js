@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import Student from "./Student";
-import NewStudentPopup from "./NewStudentPopup";
+import NewStudentPopup from "./NewStudent";
 
 function StudentPaginatedList() {
   const [subjects, setSubjects] = useState([]);
