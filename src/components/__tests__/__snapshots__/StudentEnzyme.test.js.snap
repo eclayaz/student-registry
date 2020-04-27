@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with student data 1`] = `
+<tr
+  key="5ea1dfc56d485cd446b54d90"
+>
+  <td
+    data-testid="name"
+  >
+    Nadeesha Dilruwna
+  </td>
+  <td
+    data-testid="gender"
+  >
+    Male
+  </td>
+  <td
+    data-testid="address"
+  >
+    Panadura
+  </td>
+  <td
+    data-testid="contactNumber"
+  >
+    766838371
+  </td>
+  <td>
+    <ul
+      data-testid="subjects"
+    >
+      <li
+        key="Science"
+      >
+        Science
+      </li>
+    </ul>
+  </td>
+  <td>
+    <EnrollStudentPopup
+      handleEnrollClose={[Function]}
+      handleEnrollShow={[Function]}
+      handleEnrollSubmit={[Function]}
+      showEnroll={false}
+      subjectCheckHandler={[Function]}
+      subjects={
+        Array [
+          Object {
+            "name": "Maths",
+            "value": false,
+          },
+          Object {
+            "name": "Science",
+            "value": true,
+          },
+        ]
+      }
+    />
+  </td>
+</tr>
+`;
