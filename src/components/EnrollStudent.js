@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Popup from "./Popup";
+import EnrollStudentForm from "./forms/EnrollStudentForm";
 
 function EnrollStudentPopup({
   subjects,
@@ -28,30 +29,12 @@ function EnrollStudentPopup({
         handleClose={handleEnrollClose}
         title="Enroll Student"
       >
-        <form>
-          {subjects.map((subject) => (
-            <Form.Check
-              inline
-              label={subject.name}
-              type="checkbox"
-              key={subject.name}
-              name={subject.name}
-              checked={subject.value}
-              onChange={subjectCheckHandler}
-            />
-          ))}
-          <br />
-          <br />
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleEnrollClose}>
-              Close
-            </Button>
-
-            <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-              Add
-            </Button>
-          </Modal.Footer>
-        </form>
+        <EnrollStudentForm
+          subjects={subjects}
+          handleFormSubmit={handleFormSubmit}
+          subjectCheckHandler={subjectCheckHandler}
+          handleEnrollClose={handleEnrollClose}
+        />
       </Popup>
     </>
   );
