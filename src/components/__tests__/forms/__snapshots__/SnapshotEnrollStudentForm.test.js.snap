@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EnrollStudentForm /> shallow check renders with subject data 1`] = `
+<form>
+  <FormCheck
+    checked={true}
+    disabled={false}
+    inline={true}
+    isInvalid={false}
+    isValid={false}
+    key="English"
+    label="English"
+    name="English"
+    title=""
+    type="checkbox"
+  />
+  <FormCheck
+    checked={false}
+    disabled={false}
+    inline={true}
+    isInvalid={false}
+    isValid={false}
+    key="Maths"
+    label="Maths"
+    name="Maths"
+    title=""
+    type="checkbox"
+  />
+  <br />
+  <br />
+  <ModalFooter>
+    <Button
+      active={false}
+      disabled={false}
+      type="button"
+      variant="secondary"
+    >
+      Close
+    </Button>
+    <Button
+      active={false}
+      disabled={false}
+      type="submit"
+      variant="primary"
+    >
+      Add
+    </Button>
+  </ModalFooter>
+</form>
+`;
